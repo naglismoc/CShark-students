@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ConsoleApp1
 {
@@ -9,59 +8,59 @@ namespace ConsoleApp1
         private static Random random = new Random();
         static void Main(string[] args)
         {
+            List<RealEstate> realEstate = new List<RealEstate>();
+            realEstate.Add(new RealEstate("house", 50000.8, 30, "Kaunas"));
+            realEstate.Add(new RealEstate("house", 57000.8, 48.5, "Vilnius"));
+            realEstate.Add(new RealEstate("house", 50000.8, 30, "Kaunas"));
+            realEstate.Add(new RealEstate("house", 48000, 48.5, "Vilnius"));
+            realEstate.Add(new RealEstate("house", 50000.8, 48.5, "Kaunas"));
+            realEstate.Add(new RealEstate("house", 48400, 30, "Vilnius"));
+            realEstate.Add(new RealEstate("house", 48000, 48.5, "Kaunas"));
+            realEstate.Add(new RealEstate("house", 28000, 48.5, "Vilnius"));
+            realEstate.Add(new RealEstate("house", 30000.8, 30, "Kaunas"));
 
-            List<Student> students = new List<Student>();
 
-            string[] names = { "Petras", "Jonas", "Karolis", "Naglis", "Marija", "Dovilė", "Deimantė" };
-            string[] surnames = { "Timonova", "Mockevičius", "Demidenko", "Nevinskas", "Skiparė", "Kazakevičienė", "Burkauskaitė", "Tvaska","Bruožis" };
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < realEstate.Count; i++)
             {
-                students.Add(new Student( names[random.Next(0, names.Length-1)], surnames[random.Next(0, names.Length - 1)], random.Next(18, 60), numArr(3,14,1,10)));
-            }
-
-
-
-            for (int i = 0; i < students.Count; i++)
-            {
-                for (int a = i + 1 ; a < students.Count; a++)
+                for (int a = i + 1; a < realEstate.Count; a++)
                 {
-                    if (students[a].avg() > students[i].avg()) {
-                        Student tmp = students[a];
-                        students[a] = students[i];
-                        students[i] = tmp;
+                    if (string.Compare(realEstate[i].city, realEstate[a].city) > 0)
+                    {
+                        RealEstate reTmp = realEstate[i];
+                        realEstate[i] = realEstate[a];
+                        realEstate[a] = reTmp;
                     }
                 }
             }
 
 
-
-
-            for (int i = 0; i < students.Count; i++)
+            for (int i = 0; i < realEstate.Count; i++)
             {
-                Console.WriteLine(students[i].ToString());
+                for (int a = i + 1; a < realEstate.Count; a++)
+                {
+                    if (string.Compare(realEstate[i].city, realEstate[a].city) == 0)
+                    {
+                        if (realEstate[i].price > realEstate[a].price)
+                        {
+                            RealEstate reTmp = realEstate[i];
+                            realEstate[i] = realEstate[a];
+                            realEstate[a] = reTmp;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
             }
 
 
-        }
-        public static  int[] numArr(int arrMin, int arrMax, int valMin, int valMax)
-        {
-            int[] numArr = new int[random.Next(arrMin, arrMax)];
-            for (int a = 0; a < numArr.Length; a++)
+            for (int i = 0; i < realEstate.Count; i++)
             {
-                numArr[a] = random.Next(valMin, valMax + 1);
+                Console.WriteLine(realEstate[i].ToString());
             }
-            return numArr;
+
         }
-       
-        public static string RandomString(int length)
-        {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            return new string(Enumerable.Repeat(chars, length)
-              .Select(s => s[random.Next(s.Length)]).ToArray());
-        }
-
-
-
     }
 }
